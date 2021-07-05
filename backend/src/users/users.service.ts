@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { User } from './Entities/User.entity';
 const prisma = new PrismaClient();
@@ -11,9 +10,5 @@ export class UsersService {
     return await prisma.user.findUnique({
       where: field,
     });
-  }
-  async verifytoken(cookie: any) {
-    // const data = await this.jwtService.verifyAsync(cookie);
-    // return data;
   }
 }
