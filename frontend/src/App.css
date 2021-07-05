@@ -25,4 +25,19 @@
 .content_stock {
   width: 100%;
   padding: 100px;
+  align-self: flex-start;
+  /* justify-self: center; */
+  text-align: center;
+}
+
+.tabs {
+  width: 60%;
+  margin-left: 200px;
+}
+
+@media screen and (max-width: 768px) {
+  .tabs {
+    width: 100%;
+    margin-left: 0;
+  }
 }

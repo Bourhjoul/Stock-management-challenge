@@ -51,7 +51,6 @@ export class UsersController {
         throw new UnauthorizedException();
       }
       const user = await this.usersService.findOne({ id: data.id });
-
       const { password, ...result } = user;
       return result;
     } catch (error) {

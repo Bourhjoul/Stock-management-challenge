@@ -9,7 +9,7 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5000',
     credentials: true,
   });
   const config = new DocumentBuilder()

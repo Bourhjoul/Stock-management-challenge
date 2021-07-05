@@ -1,6 +1,7 @@
 import { users } from './users';
 import { PrismaClient } from '.prisma/client';
 import * as bcrypt from 'bcrypt';
+import { products } from './products';
 
 const prisma = new PrismaClient();
 const hashingpassword = async (password: string): Promise<string> => {
@@ -19,7 +20,32 @@ async function main() {
   }
 }
 
-main()
+async function seedproducts() {
+  for (const product of products) {
+    await prisma.product.create({
+      data: product,
+    });
+  }
+}
+
+async function seedcustomersandorder() {
+  await prisma.customer.create({
+    data: {
+      name: 'imad elb',
+      Order: {
+        create: [
+          {
+            Order_details: {
+              create: [{ productID: 1 }],
+            },
+          },
+        ],
+      },
+    },
+  });
+}
+
+seedcustomersandorder()
   .catch((e) => {
     console.log(e);
     process.exit(1);

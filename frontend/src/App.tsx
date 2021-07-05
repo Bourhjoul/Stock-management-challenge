@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './App.css'
 import LogIn from './pages/Login/LogIn'
 import Mangement from './pages/Mangement'
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
 export interface User {
   name: string
   email: number
@@ -17,7 +17,6 @@ function App() {
       <Router>
         <Route component={Mangement} path="/mangement" />
         <Route component={LogIn} exact path="/" />
-        {/* {userInfo ? <Mangement /> : <LogIn />} */}
       </Router>
     </div>
   )

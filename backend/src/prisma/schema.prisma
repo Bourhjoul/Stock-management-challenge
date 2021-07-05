@@ -16,3 +16,36 @@ model User {
   name     String
   password String
 }
+
+model Product {
+  id            Int             @id @default(autoincrement())
+  name          String
+  designation   String
+  price         Int
+  stockQty      Int
+  Order_details Order_details[]
+}
+
+model Customer {
+  id    Int     @id @default(autoincrement())
+  name  String
+  Order Order[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  Customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  Order_details Order_details[]
+}
+
+model Order_details {
+  id        Int     @id @default(autoincrement())
+  Order     Order   @relation(fields: [orderID], references: [id])
+  orderID   Int
+  Product   Product @relation(fields: [productID], references: [id])
+  productID Int
+}
