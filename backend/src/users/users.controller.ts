@@ -36,11 +36,11 @@ export class UsersController {
       throw new BadRequestException('Invalid credentials');
     }
     const jwt = await this.jwtService.signAsync({ id: user.id });
+    console.log(jwt);
     response.cookie('jwt', jwt, { httpOnly: true });
+    const { password, ...result } = user;
 
-    return {
-      message: 'Success',
-    };
+    return { message: 'Success', name: result.name, id: result.id };
   }
   @Get('user')
   async User(@Req() request: Request) {
