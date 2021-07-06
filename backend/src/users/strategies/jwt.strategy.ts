@@ -11,8 +11,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
           let data = request?.cookies['jwt'];
-          console.log('cookie', data);
-
           if (!data) {
             return null;
           }
@@ -26,12 +24,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(req: any, payload: any) {
     if (!payload) {
-      console.log('nopayload');
       throw new BadRequestException('invalid jwt token');
     }
     if (!req) {
-      console.log('nodata');
-
       throw new BadRequestException('token expired');
     }
     let user = await this.userService.findOne({ id: req.id });

@@ -5,6 +5,7 @@ import {
   GET_ORDERS_SUCCESS,
   GET_ORDER_PRODUCTS_FAIL,
   GET_ORDER_PRODUCTS_REQUEST,
+  GET_ORDER_PRODUCTS_RESET,
   GET_ORDER_PRODUCTS_SUCCESS,
 } from '../constants/orderConstants'
 
@@ -25,7 +26,7 @@ export const GetOrdersReducers = (
 }
 
 export const GetOrderProductsReducers = (
-  state = { Products: [] },
+  state = { Products: [], loading: true, success: false },
   action: PayloadAction<boolean>
 ) => {
   switch (action.type) {
@@ -35,6 +36,12 @@ export const GetOrderProductsReducers = (
       return { loading: false, Products: action.payload, success: true }
     case GET_ORDER_PRODUCTS_FAIL:
       return { loading: false, success: false, error: action.payload }
+    case GET_ORDER_PRODUCTS_RESET:
+      return {
+        Products: [],
+        loading: true,
+        success: false,
+      }
     default:
       return state
   }

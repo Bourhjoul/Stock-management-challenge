@@ -48,4 +48,5 @@ model Order_details {
   orderID   Int
   Product   Product @relation(fields: [productID], references: [id])
   productID Int
+  Qty       Int     @default(1)
 }

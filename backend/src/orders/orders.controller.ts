@@ -48,9 +48,16 @@ export class OrdersController {
   @Get('products/:id')
   async findproducts(@Param('id') id: string) {
     const orderDetails = await this.ordersService.findOne(+id);
-    const products = orderDetails.map(
-      async (order) => await this.productsService.findOne(order.productID),
-    );
+    const products = orderDetails.map(async (order) => {
+      const product = await this.productsService.findOne(order.productID);
+      const productWithQty = {
+        ...product,
+        Qty: order.Qty,
+        Order_id: order.orderID,
+      };
+      return productWithQty;
+    });
+
     return Promise.all(products);
   }
 }
