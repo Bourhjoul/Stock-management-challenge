@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Table, Space, Button, Modal } from 'antd'
-import { ExpandAltOutlined } from '@ant-design/icons'
+import { ExpandAltOutlined, FileTextOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetOrderProducts } from '../redux/actions/OrderActions'
 import { ShowErrmsg } from './ShowResult'
@@ -89,7 +89,7 @@ const MangementTableOrder = ({ orders, keys }: any) => {
             <Space size="middle">
               <Button
                 type="primary"
-                icon={<ExpandAltOutlined />}
+                icon={<FileTextOutlined />}
                 onClick={() => createPdf(order)}
               >
                 Pdf
