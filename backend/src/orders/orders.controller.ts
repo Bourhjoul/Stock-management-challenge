@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
 import { PrismaClient } from '@prisma/client';
@@ -36,7 +35,7 @@ export class OrdersController {
     const orders = await this.ordersService.findAll();
     const orderwithcustomer = orders.map(async (order) => {
       const customer = await prisma.customer.findUnique({
-        where: { id: order.id },
+        where: { id: order.customerId },
       });
       return { ...order, customer: customer.name };
     });

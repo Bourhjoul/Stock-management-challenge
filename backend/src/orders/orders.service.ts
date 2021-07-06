@@ -1,13 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 @Injectable()
 export class OrdersService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  async create(createOrderDto: CreateOrderDto) {
+    console.log(createOrderDto);
+    return await prisma.order.create({
+      data: {
+        Customer: { connect: { id: createOrderDto.customerId } },
+        Order_details: { createMany: { data: createOrderDto.products } },
+      },
+      include: {
+        Customer: true,
+        Order_details: true,
+      },
+    });
   }
 
   async findAll() {
