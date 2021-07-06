@@ -3,6 +3,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from '../constants/userConstants'
 
 export const login = (input: any) => async (dispatch: any) => {
@@ -30,4 +31,14 @@ export const login = (input: any) => async (dispatch: any) => {
           : error.message,
     })
   }
+}
+
+export const logout = () => async (dispatch: any) => {
+  localStorage.removeItem('userInfo')
+  await axios.post('http://localhost:5000/users/logout', {
+    withCredentials: true,
+  })
+  dispatch({
+    type: USER_LOGOUT,
+  })
 }

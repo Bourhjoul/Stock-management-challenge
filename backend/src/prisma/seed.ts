@@ -31,12 +31,12 @@ async function seedproducts() {
 async function seedcustomersandorder() {
   await prisma.customer.create({
     data: {
-      name: 'imad elb',
+      name: 'Ismail',
       Order: {
         create: [
           {
             Order_details: {
-              create: [{ productID: 1 }],
+              create: [{ productID: 2 }],
             },
           },
         ],

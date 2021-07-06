@@ -26,7 +26,6 @@
   width: 100%;
   padding: 100px;
   align-self: flex-start;
-  /* justify-self: center; */
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -35,7 +34,13 @@
 .tabs {
   width: 60%;
   margin-left: 200px;
+  margin-bottom: 20px;
 }
+.logout {
+  width: fit-content;
+  align-self: flex-end;
+}
+
 .ant-tabs-nav-list {
   color: #e9b44b !important;
 }
