@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -25,10 +16,15 @@ export class OrdersController {
     private productsService: ProductsService,
   ) {}
 
+  // post new order
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
+
+  // Gets all orders
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
@@ -56,7 +52,13 @@ export class OrdersController {
       };
       return productWithQty;
     });
-
     return Promise.all(products);
+  }
+
+  //Gets all customers (no need to create another route.)
+  @UseGuards(JwtAuthGuard)
+  @Get('customers')
+  async findcustomers() {
+    return this.ordersService.getCustomers();
   }
 }

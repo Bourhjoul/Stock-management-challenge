@@ -7,18 +7,19 @@ import { RouteComponentProps } from 'react-router-dom'
 import styles from './Login.module.css'
 import { ShowErrmsg } from '../../components/ShowResult'
 
-interface ChildComponentProps extends RouteComponentProps<any> {
+export interface ChildComponentProps extends RouteComponentProps<any> {
   history: History
 }
+
 const LogIn: React.FC<ChildComponentProps> = ({ history }) => {
   const dispatch = useDispatch()
-
   const userLogin = useSelector((state: any) => state.userLogin)
   const { userInfo, error, success } = userLogin
   const [input, setInput] = useState({
     email: '',
     password: '',
   })
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
@@ -37,6 +38,7 @@ const LogIn: React.FC<ChildComponentProps> = ({ history }) => {
     }
     return () => {}
   }, [success, userInfo, history])
+
   return (
     <div>
       <div className={styles.background_login}></div>

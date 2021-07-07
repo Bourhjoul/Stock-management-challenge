@@ -6,7 +6,12 @@ const prisma = new PrismaClient();
 @Injectable()
 export class OrdersService {
   async create(createOrderDto: CreateOrderDto) {
-    console.log(createOrderDto);
+    createOrderDto.products.map(async (product) => {
+      await prisma.product.update({
+        where: { id: product.productID },
+        data: { stockQty: { decrement: product.Qty || 1 } },
+      });
+    });
     return await prisma.order.create({
       data: {
         Customer: { connect: { id: createOrderDto.customerId } },
@@ -25,5 +30,9 @@ export class OrdersService {
 
   async findOne(id: number) {
     return await prisma.order_details.findMany({ where: { orderID: id } });
+  }
+
+  async getCustomers() {
+    return await prisma.customer.findMany({});
   }
 }

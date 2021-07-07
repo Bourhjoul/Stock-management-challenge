@@ -1,5 +1,5 @@
-import { Tabs } from 'antd'
-import React, { useEffect } from 'react'
+import { Tabs, Modal, Button, message } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { GetProducts } from '../redux/actions/ProductActions'
@@ -8,27 +8,36 @@ import { ShowErrmsg } from '../components/ShowResult'
 import { logout } from '../redux/actions/UserActions'
 import MangementTableOrder, { TableProducts } from '../components/Tables'
 import { GetOrders } from '../redux/actions/OrderActions'
+import CreateOrder from '../components/CreateOrder'
+import { ChildComponentProps } from './Login/LogIn'
 
 const { TabPane } = Tabs
 
-const Mangement = () => {
+const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
+  const [isModalVisible, setisModalVisible] = useState(false)
   const dispatch = useDispatch()
   const userLogin = useSelector((state: any) => state.userLogin)
   const { userInfo } = userLogin
   const GetProductsr = useSelector((state: any) => state.GetProducts)
   const { loading, Products, success, error } = GetProductsr
   const GetOrdersr = useSelector((state: any) => state.GetOrders)
+  const CreateOrderR = useSelector((state: any) => state.CreateOrder)
+  const { success: successCreate } = CreateOrderR
   const {
     loading: loadingOrders,
     data,
     success: successOrders,
     error: errorOrders,
   } = GetOrdersr
+
   useEffect(() => {
     dispatch(GetProducts())
+    if (successCreate) {
+      message.success('Order Created')
+    }
 
     return () => {}
-  }, [dispatch])
+  }, [dispatch, history, successCreate])
 
   if (!userInfo) {
     return <Redirect to="" />
@@ -37,7 +46,10 @@ const Mangement = () => {
   const handleLogout = () => {
     dispatch(logout())
   }
-
+  const handleCancel = () => {
+    setisModalVisible(false)
+    window.location.reload()
+  }
   const changeTabHandler = (key: string) => {
     switch (key) {
       case '1':
@@ -45,7 +57,6 @@ const Mangement = () => {
         break
       case '2':
         dispatch(GetOrders())
-
         break
 
       default:
@@ -82,7 +93,12 @@ const Mangement = () => {
               ) : (
                 errorOrders && ShowErrmsg(errorOrders)
               )}
-              <button className={styles.Btn}>+ ADD ORDER </button>
+              <button
+                className={styles.Btn}
+                onClick={() => setisModalVisible(true)}
+              >
+                + ADD ORDER{' '}
+              </button>
             </TabPane>
           </Tabs>
         </div>
@@ -90,8 +106,19 @@ const Mangement = () => {
           Log Out
         </button>
       </div>
-      <br />
-      <br />
+      <Modal
+        onCancel={handleCancel}
+        title="products"
+        width={700}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Return
+          </Button>,
+        ]}
+        visible={isModalVisible}
+      >
+        <CreateOrder />
+      </Modal>
     </>
   )
 }

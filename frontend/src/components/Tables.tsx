@@ -11,7 +11,7 @@ import { GET_ORDER_PRODUCTS_RESET } from '../redux/constants/orderConstants'
 const { Column } = Table
 export const TableProducts = (Products: any, keys: any) => {
   return (
-    <Table dataSource={Products}>
+    <Table dataSource={Products} rowKey={(record) => record.id}>
       {keys.map((key: string) => (
         <Column title={key} dataIndex={key} key={key} />
       ))}
@@ -32,11 +32,12 @@ const MangementTableOrder = ({ orders, keys }: any) => {
     createdAt: order.createdAt.substring(0, 10),
     updatedAt: order.updatedAt.substring(0, 10),
   }))
+
   const showModal = (id: string) => {
+    dispatch({ type: GET_ORDER_PRODUCTS_RESET })
     dispatch(GetOrderProducts(id))
     setisModalVisible(true)
   }
-
   const handleCancel = () => {
     setisModalVisible(false)
     dispatch({ type: GET_ORDER_PRODUCTS_RESET })
@@ -59,10 +60,11 @@ const MangementTableOrder = ({ orders, keys }: any) => {
     }
     return () => {}
   }, [dispatch, Products, success, loadingPdf, orderID, customer])
+
   return (
     <>
       <div>{loadingPdf && 'Loading the pdf'}</div>
-      <Table dataSource={orders}>
+      <Table rowKey={(record) => record.id} dataSource={orders}>
         {keys.map((key: string) => (
           <Column title={key} dataIndex={key} key={key} />
         ))}

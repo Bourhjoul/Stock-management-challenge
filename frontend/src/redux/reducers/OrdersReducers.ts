@@ -1,5 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import {
+  CREATE_ORDER_FAIL,
+  CREATE_ORDER_REQUEST,
+  CREATE_ORDER_SUCCESS,
+  GET_CUSTOMERS_FAIL,
+  GET_CUSTOMERS_REQUEST,
+  GET_CUSTOMERS_SUCCESS,
   GET_ORDERS_FAIL,
   GET_ORDERS_REQUEST,
   GET_ORDERS_SUCCESS,
@@ -10,7 +16,7 @@ import {
 } from '../constants/orderConstants'
 
 export const GetOrdersReducers = (
-  state = { Orders: [] },
+  state = { data: [] },
   action: PayloadAction<boolean>
 ) => {
   switch (action.type) {
@@ -19,6 +25,22 @@ export const GetOrdersReducers = (
     case GET_ORDERS_SUCCESS:
       return { loading: false, data: action.payload, success: true }
     case GET_ORDERS_FAIL:
+      return { loading: false, success: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const CreateOrderReducers = (
+  state = {},
+  action: PayloadAction<boolean>
+) => {
+  switch (action.type) {
+    case CREATE_ORDER_REQUEST:
+      return { loading: true }
+    case CREATE_ORDER_SUCCESS:
+      return { loading: false, success: true }
+    case CREATE_ORDER_FAIL:
       return { loading: false, success: false, error: action.payload }
     default:
       return state
@@ -42,6 +64,22 @@ export const GetOrderProductsReducers = (
         loading: true,
         success: false,
       }
+    default:
+      return state
+  }
+}
+
+export const GetCustomersReducer = (
+  state = { customers: [{}] },
+  action: PayloadAction<boolean>
+) => {
+  switch (action.type) {
+    case GET_CUSTOMERS_REQUEST:
+      return { loading: true }
+    case GET_CUSTOMERS_SUCCESS:
+      return { loading: false, customers: action.payload, success: true }
+    case GET_CUSTOMERS_FAIL:
+      return { loading: false, success: false, error: action.payload }
     default:
       return state
   }
