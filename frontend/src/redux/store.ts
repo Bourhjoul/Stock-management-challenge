@@ -2,7 +2,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoginReducer } from './reducers/UsersReducers'
-import { GetProductsReducer } from './reducers/ProductsReducers'
+import {
+  CreateProductReducer,
+  GetProductsReducer,
+} from './reducers/ProductsReducers'
 import {
   CreateOrderReducers,
   GetCustomersReducer,
@@ -17,6 +20,7 @@ const reducer = combineReducers({
   GetOrderProducts: GetOrderProductsReducers,
   GetCustomers: GetCustomersReducer,
   CreateOrder: CreateOrderReducers,
+  CreateProduct: CreateProductReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -2,6 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import {
   CREATE_ORDER_FAIL,
   CREATE_ORDER_REQUEST,
+  CREATE_ORDER_RESET,
   CREATE_ORDER_SUCCESS,
   GET_CUSTOMERS_FAIL,
   GET_CUSTOMERS_REQUEST,
@@ -42,6 +43,10 @@ export const CreateOrderReducers = (
       return { loading: false, success: true }
     case CREATE_ORDER_FAIL:
       return { loading: false, success: false, error: action.payload }
+    case CREATE_ORDER_RESET:
+      return {
+        success: false,
+      }
     default:
       return state
   }
@@ -61,7 +66,6 @@ export const GetOrderProductsReducers = (
     case GET_ORDER_PRODUCTS_RESET:
       return {
         Products: [],
-        loading: true,
         success: false,
       }
     default:

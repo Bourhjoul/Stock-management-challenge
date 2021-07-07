@@ -3,15 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UseGuards,
   Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
@@ -20,16 +17,20 @@ import { ApiTags } from '@nestjs/swagger';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  // create new product
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
+
+  // return all the products
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Req() request: Request) {
-    console.log(request.user);
     return this.productsService.findAll();
   }
+  // find a specific product
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {

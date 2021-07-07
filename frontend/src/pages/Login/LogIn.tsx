@@ -32,7 +32,6 @@ const LogIn: React.FC<ChildComponentProps> = ({ history }) => {
   }
 
   useEffect(() => {
-    console.log(userInfo)
     if (success || userInfo) {
       history.push('/mangement')
     }

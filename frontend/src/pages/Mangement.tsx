@@ -10,11 +10,16 @@ import MangementTableOrder, { TableProducts } from '../components/Tables'
 import { GetOrders } from '../redux/actions/OrderActions'
 import CreateOrder from '../components/CreateOrder'
 import { ChildComponentProps } from './Login/LogIn'
+import CreateProductForm from '../components/CreateProductForm'
+import { CREATE_ORDER_RESET } from '../redux/constants/orderConstants'
+import { CREATE_PRODUCT_RESET } from '../redux/constants/productConstants'
 
 const { TabPane } = Tabs
 
 const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
   const [isModalVisible, setisModalVisible] = useState(false)
+  const [ModalAddProduct, setModalAddProduct] = useState(false)
+
   const dispatch = useDispatch()
   const userLogin = useSelector((state: any) => state.userLogin)
   const { userInfo } = userLogin
@@ -23,6 +28,8 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
   const GetOrdersr = useSelector((state: any) => state.GetOrders)
   const CreateOrderR = useSelector((state: any) => state.CreateOrder)
   const { success: successCreate } = CreateOrderR
+  const CreateProductR = useSelector((state: any) => state.CreateProduct)
+  const { success: successCreateProduct } = CreateProductR
   const {
     loading: loadingOrders,
     data,
@@ -33,11 +40,21 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
   useEffect(() => {
     dispatch(GetProducts())
     if (successCreate) {
+      handleCancel()
       message.success('Order Created')
+      dispatch({
+        type: CREATE_ORDER_RESET,
+      })
     }
-
+    if (successCreateProduct) {
+      handleCancel()
+      message.success('Product Created')
+      dispatch({
+        type: CREATE_PRODUCT_RESET,
+      })
+    }
     return () => {}
-  }, [dispatch, history, successCreate])
+  }, [dispatch, history, successCreate, successCreateProduct])
 
   if (!userInfo) {
     return <Redirect to="" />
@@ -48,6 +65,7 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
   }
   const handleCancel = () => {
     setisModalVisible(false)
+    setModalAddProduct(false)
     window.location.reload()
   }
   const changeTabHandler = (key: string) => {
@@ -81,6 +99,12 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
               ) : (
                 error && ShowErrmsg(error)
               )}
+              <button
+                className={styles.Btn}
+                onClick={() => setModalAddProduct(true)}
+              >
+                + ADD PRODUCT
+              </button>
             </TabPane>
             <TabPane tab="Orders" key="2">
               {loadingOrders ? (
@@ -97,7 +121,7 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
                 className={styles.Btn}
                 onClick={() => setisModalVisible(true)}
               >
-                + ADD ORDER{' '}
+                + ADD ORDER
               </button>
             </TabPane>
           </Tabs>
@@ -115,9 +139,9 @@ const Mangement: React.FC<ChildComponentProps> = ({ history }) => {
             Return
           </Button>,
         ]}
-        visible={isModalVisible}
+        visible={isModalVisible || ModalAddProduct}
       >
-        <CreateOrder />
+        {ModalAddProduct ? <CreateProductForm /> : <CreateOrder />}
       </Modal>
     </>
   )
