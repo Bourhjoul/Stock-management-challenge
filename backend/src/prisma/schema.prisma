@@ -3,7 +3,8 @@
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:samides2020@localhost:5432/Stockmangement"
+  url      = "postgres://ueivevgtbkgsiz:01d9835f602acb34e26a284515935557f509f352b1094e89b948af3481317810@ec2-54-73-68-39.eu-west-1.compute.amazonaws.com:5432/d6835qngl86ndh"
+
 }
 
 generator client {
